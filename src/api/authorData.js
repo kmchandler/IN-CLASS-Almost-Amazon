@@ -3,7 +3,7 @@ import firebaseConfig from './apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
-// FIXME:  GET ALL AUTHORS
+// GET ALL AUTHORS
 const getAuthors = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/authors.json`)
     .then((response) => resolve(Object.values(response.data)))
@@ -12,21 +12,30 @@ const getAuthors = () => new Promise((resolve, reject) => {
 
 // FIXME: CREATE AUTHOR
 const createAuthor = () => new Promise((resolve, reject) => {
-  axios.post(`${dbUrl}/authors.json`)
+  axios.post(`${dbUrl}/authors.json`, {
+    author_id: '-MiBv9_aOEJQWoobjz_U',
+    description: '__',
+    firebaseKey: '-MiBvEFJTI3FmTzDu_3V',
+    image: 'https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale/jackets/9781526622402.jpg',
+    price: '12.99',
+    sale: true,
+    title: 'Hood Feminism',
+    uid: '__'
+  })
     .then(() => {
       getAuthors().then((authorsArray) => resolve(authorsArray));
     })
     .catch((error) => reject(error));
 });
 
-// FIXME: GET SINGLE AUTHOR
+// GET SINGLE AUTHOR
 const getSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/authors/${firebaseKey}.json`)
     .then((response) => resolve(response.data))
     .catch((error) => reject(error));
 });
 
-// FIXME: DELETE AUTHOR
+// DELETE AUTHOR
 const deleteSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/authors/${firebaseKey}.json`)
     .then(() => {
@@ -37,14 +46,16 @@ const deleteSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
 
 // FIXME: UPDATE AUTHOR
 const updateAuthor = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/authors/${firebaseKey}.json`)
+  axios.patch(`${dbUrl}/authors/${firebaseKey}.json`, {
+    title: 'How to be Sexy?'
+  })
     .then(() => {
       getAuthors().then((authorsArray) => resolve(authorsArray));
     })
     .catch((error) => reject(error));
 });
 
-// TODO: GET A SINGLE AUTHOR'S BOOKS
+// GET A SINGLE AUTHOR'S BOOKS
 const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/books.json?orderBy="author_id"&equalTo="${firebaseKey}"`)
     .then((response) => resolve(response.data))

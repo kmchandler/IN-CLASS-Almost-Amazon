@@ -4,14 +4,14 @@ import firebaseConfig from './apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
-// TODO: GET BOOKS
+// GET BOOKS
 const getBooks = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/books.json`)
     .then((response) => resolve(Object.values(response.data)))
     .catch((error) => reject(error));
 });
 
-// TODO: DELETE BOOK
+// DELETE BOOK
 const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/books/${firebaseKey}.json`)
     .then(() => {
@@ -20,7 +20,7 @@ const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-// TODO: GET SINGLE BOOK
+// GET SINGLE BOOK
 const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/books/${firebaseKey}.json`)
     .then((response) => resolve(response.data))
@@ -29,7 +29,13 @@ const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
 
 // TODO: CREATE BOOK
 const createBook = () => new Promise((resolve, reject) => {
-  axios.post(`${dbUrl}/books.json`)
+  axios.post(`${dbUrl}/books.json`, {
+    title: 'How to be Sexy?',
+    sale: false,
+    price: 25.99,
+    image: 'https://firebasestorage.googleapis.com/v0/b/almost-1564e.appspot.com/o/books%2Fchicken.jpg?alt=media&token=77e7cf36-4f72-4ee0-a487-dd1d366ced63',
+    author_id: '-MTpcli73mfiIqW0lpPe'
+  })
     .then(() => {
       getBooks().then((booksArray) => resolve(booksArray));
     })
@@ -38,14 +44,20 @@ const createBook = () => new Promise((resolve, reject) => {
 
 // TODO: UPDATE BOOK
 const updateBook = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/books/${firebaseKey}.json`)
+  axios.patch(`${dbUrl}/books/${firebaseKey}.json`, {
+    title: 'How to be Sexy?',
+    sale: false,
+    price: 25.99,
+    image: 'https://firebasestorage.googleapis.com/v0/b/almost-1564e.appspot.com/o/books%2Fchicken.jpg?alt=media&token=77e7cf36-4f72-4ee0-a487-dd1d366ced63',
+    author_id: '-MTpcli73mfiIqW0lpPe'
+  })
     .then(() => {
       getBooks().then((booksArray) => resolve(booksArray));
     })
     .catch((error) => reject(error));
 });
 
-// TODO: FILTER BOOKS ON SALE
+// FILTER BOOKS ON SALE
 const booksOnSale = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/books.json?orderBy="sale"&equalTo=true`)
     .then((response) => resolve(Object.values(response.data)))

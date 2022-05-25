@@ -16,7 +16,8 @@ const viewAuthor = (obj) => {
        <i id="edit-author-btn--${obj.firebaseKey}" class="fas fa-edit btn btn-info"></i>
        <i id="delete-author--${obj.firebaseKey}" class="btn btn-danger fas fa-trash-alt"></i>
      </div>
-      <hr>`;
+      <hr>
+      <h5>Books</h5>`;
 
   const keys = Object.keys(obj.booksObject);
 
