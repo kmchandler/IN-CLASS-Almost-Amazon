@@ -21,11 +21,11 @@ const viewAuthor = (obj) => {
 
   const keys = Object.keys(obj.booksObject);
 
-  keys.forEach((firebaseKey) => {
+  keys.forEach((book) => {
     bookString += `
       <div class="mt-5 d-flex flex-wrap">
       <div class="d-flex flex-column">
-        <img src=${firebaseKey.image} alt=${firebaseKey.title} style="width: 300px;">  
+        <img src=${book.image} alt=${book.title} style="width: 300px;">  
         </div>
       </div>`;
   });
