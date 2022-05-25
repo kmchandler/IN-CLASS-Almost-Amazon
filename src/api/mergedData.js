@@ -1,6 +1,6 @@
 // import axios from "axios";
-import { getSingleAuthor } from './authorData';
-import { booksByAuthor, getSingleBook } from './bookData';
+import { getAuthorBooks, getSingleAuthor } from './authorData';
+import { getSingleBook } from './bookData';
 
 const viewBookDetails = (bookFirebaseKey) => new Promise((resolve, reject) => {
   getSingleBook(bookFirebaseKey)
@@ -15,9 +15,9 @@ const viewBookDetails = (bookFirebaseKey) => new Promise((resolve, reject) => {
 const viewAuthorDetails = (authorFirebaseKey) => new Promise((resolve, reject) => {
   getSingleAuthor(authorFirebaseKey)
     .then((authorObject) => {
-      booksByAuthor(authorObject.authorFirebaseKey)
-        .then((bookObject) => {
-          resolve({ bookObject, ...authorObject });
+      getAuthorBooks(authorObject.firebaseKey)
+        .then((booksObject) => {
+          resolve({ booksObject, ...authorObject });
         });
     }).catch((error) => reject(error));
 });

@@ -3,8 +3,9 @@ import { deleteBook } from '../../api/bookData';
 import { viewAuthorDetails, viewBookDetails } from '../../api/mergedData';
 import { showAuthors } from '../components/pages/authors';
 import { showBooks } from '../components/pages/books';
-import viewBook from '../components/pages/viewBook';
 import viewAuthor from '../components/pages/viewAuthor';
+import viewBook from '../components/pages/viewBook';
+// import viewAuthor from '../components/pages/viewAuthor';
 
 const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
@@ -36,7 +37,7 @@ const domEvents = () => {
     // CLICK EVENT FOR VIEW AUTHOR CARD
     if (e.target.id.includes('view-author-btn')) {
       const [, authorFirebaseKey] = e.target.id.split('--');
-      viewAuthorDetails(authorFirebaseKey).then((authorBookObject) => viewAuthor(authorBookObject));
+      viewAuthorDetails(authorFirebaseKey).then((authorBooksObject) => viewAuthor((authorBooksObject)));
     }
 
     // FIXME: ADD CLICK EVENT FOR DELETING AN AUTHOR
