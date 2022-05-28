@@ -7,7 +7,13 @@ const dbUrl = firebaseConfig.databaseURL;
 // GET BOOKS
 const getBooks = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/books.json`)
-    .then((response) => resolve(Object.values(response.data)))
+    .then((response) => {
+      if (response.data) {
+        resolve(Object.values(response.data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch((error) => reject(error));
 });
 
@@ -27,34 +33,24 @@ const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-// TODO: CREATE BOOK
-const createBook = () => new Promise((resolve, reject) => {
-  axios.post(`${dbUrl}/books.json`, {
-    title: 'How to be Sexy?',
-    sale: false,
-    price: 25.99,
-    image: 'https://firebasestorage.googleapis.com/v0/b/almost-1564e.appspot.com/o/books%2Fchicken.jpg?alt=media&token=77e7cf36-4f72-4ee0-a487-dd1d366ced63',
-    author_id: '-MTpcli73mfiIqW0lpPe'
-  })
-    .then(() => {
-      getBooks().then((booksArray) => resolve(booksArray));
+// CREATE BOOK
+const createBook = (bookObj) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/books.json`, bookObj)
+    .then((response) => {
+      const payload = { firebaseKey: response.data.name };
+      axios.patch(`${dbUrl}/books/${response.data.name}.json`, payload)
+        .then(() => {
+          getBooks().then(resolve);
+        });
     })
-    .catch((error) => reject(error));
+    .catch((error) => reject(error)); // or .catch(reject) --> shorthand
 });
 
-// TODO: UPDATE BOOK
-const updateBook = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/books/${firebaseKey}.json`, {
-    title: 'How to be Sexy?',
-    sale: false,
-    price: 25.99,
-    image: 'https://firebasestorage.googleapis.com/v0/b/almost-1564e.appspot.com/o/books%2Fchicken.jpg?alt=media&token=77e7cf36-4f72-4ee0-a487-dd1d366ced63',
-    author_id: '-MTpcli73mfiIqW0lpPe'
-  })
-    .then(() => {
-      getBooks().then((booksArray) => resolve(booksArray));
-    })
-    .catch((error) => reject(error));
+// UPDATE BOOK
+const updateBook = (bookObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/books/${bookObj.firebaseKey}.json`, bookObj)
+    .then(() => getBooks().then(resolve))
+    .catch(reject);
 });
 
 // FILTER BOOKS ON SALE

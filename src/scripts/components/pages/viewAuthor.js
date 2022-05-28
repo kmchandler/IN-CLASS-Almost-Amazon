@@ -19,16 +19,21 @@ const viewAuthor = (obj) => {
       <hr>
       <h5>Books</h5>`;
 
-  const keys = Object.keys(obj.booksObject);
-
-  keys.forEach((book) => {
+  obj.books.forEach((item) => {
     bookString += `
-      <div class="mt-5 d-flex flex-wrap">
-      <div class="d-flex flex-column">
-        <img src=${book.image} alt=${book.title} style="width: 300px;">  
+      <div id="authorBooksCard" class="card">
+        <img class="card-img-top" src=${item.image} alt=${item.title}">
+        <div class="card-body">
+          <h5 class="card-title">${item.title}</h5>
+            <p class="card-text bold">${item.sale ? `<span class="badge badge-info sale-badge"><i class="fa fa-bell" aria-hidden="true"></i> Sale</span> $${item.price}` : `$${item.price}`}</p>
+            <hr>
+            <i class="btn btn-success fas fa-eye" id="view-book-btn--${item.firebaseKey}"></i>
+            <i id="edit-book-btn--${item.firebaseKey}" class="fas fa-edit btn btn-info"></i>
+            <i id="delete-book-btn--${item.firebaseKey}" class="btn btn-danger fas fa-trash-alt"></i>
         </div>
       </div>`;
   });
+
   renderToDOM('#view', domString);
   renderToDOM('#view2', bookString);
 };

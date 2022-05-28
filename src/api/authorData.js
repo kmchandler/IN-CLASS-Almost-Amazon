@@ -6,26 +6,27 @@ const dbUrl = firebaseConfig.databaseURL;
 // GET ALL AUTHORS
 const getAuthors = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/authors.json`)
-    .then((response) => resolve(Object.values(response.data)))
+    .then((response) => {
+      if (response.data) {
+        resolve(Object.values(response.data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch((error) => reject(error));
 });
 
-// FIXME: CREATE AUTHOR
-const createAuthor = () => new Promise((resolve, reject) => {
-  axios.post(`${dbUrl}/authors.json`, {
-    author_id: '-MiBv9_aOEJQWoobjz_U',
-    description: '__',
-    firebaseKey: '-MiBvEFJTI3FmTzDu_3V',
-    image: 'https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale/jackets/9781526622402.jpg',
-    price: '12.99',
-    sale: true,
-    title: 'Hood Feminism',
-    uid: '__'
-  })
-    .then(() => {
-      getAuthors().then((authorsArray) => resolve(authorsArray));
+// CREATE AUTHOR
+const createAuthor = (authorObj) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/authors.json`, authorObj)
+    .then((response) => {
+      const payload = { firebaseKey: response.data.name };
+      axios.patch(`${dbUrl}/authors/${response.data.name}.json`, payload)
+        .then(() => {
+          getAuthors().then(resolve);
+        });
     })
-    .catch((error) => reject(error));
+    .catch(reject);
 });
 
 // GET SINGLE AUTHOR
@@ -44,15 +45,11 @@ const deleteSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-// FIXME: UPDATE AUTHOR
-const updateAuthor = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/authors/${firebaseKey}.json`, {
-    title: 'How to be Sexy?'
-  })
-    .then(() => {
-      getAuthors().then((authorsArray) => resolve(authorsArray));
-    })
-    .catch((error) => reject(error));
+// UPDATE AUTHOR
+const updateAuthor = (authorObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/authors/${authorObj.firebaseKey}.json`, authorObj)
+    .then(() => getAuthors().then(resolve))
+    .catch(reject);
 });
 
 // GET A SINGLE AUTHOR'S BOOKS

@@ -101,3 +101,18 @@ body {
   color: #DAA520;
   size: 20px;
 }
+
+#view2 {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: 7%;
+}
+
+#authorBooksCard {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 20%;
+  max-height: 15%;
+  margin-left: 0.7%;
+  margin-top: 2%;
+}
