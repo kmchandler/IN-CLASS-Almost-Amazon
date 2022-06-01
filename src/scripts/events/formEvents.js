@@ -13,11 +13,10 @@ const formEvents = (uid) => {
         image: document.querySelector('#image').value,
         price: document.querySelector('#price').value,
         description: document.querySelector('#description').value,
-        sale: document.querySelector('#sale').value,
+        sale: document.querySelector('#sale').checked,
         author_id: document.querySelector('#author_id').value,
         uid
       };
-
       createBook(bookObject).then((booksArray) => showBooks(booksArray));
     }
 

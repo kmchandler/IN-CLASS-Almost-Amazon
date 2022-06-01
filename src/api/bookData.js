@@ -40,7 +40,7 @@ const createBook = (bookObj) => new Promise((resolve, reject) => {
       const payload = { firebaseKey: response.data.name };
       axios.patch(`${dbUrl}/books/${response.data.name}.json`, payload)
         .then(() => {
-          getBooks().then(resolve);
+          getBooks(bookObj.uid).then(resolve);
         });
     })
     .catch((error) => reject(error)); // or .catch(reject) --> shorthand
@@ -49,7 +49,7 @@ const createBook = (bookObj) => new Promise((resolve, reject) => {
 // UPDATE BOOK
 const updateBook = (bookObj) => new Promise((resolve, reject) => {
   axios.patch(`${dbUrl}/books/${bookObj.firebaseKey}.json`, bookObj)
-    .then(() => getBooks().then(resolve))
+    .then(() => getBooks(bookObj.uid).then(resolve))
     .catch(reject);
 });
 // FILTER BOOKS ON SALE
