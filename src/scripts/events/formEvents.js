@@ -43,6 +43,8 @@ const formEvents = (uid) => {
         first_name: document.querySelector('#first_name').value,
         last_name: document.querySelector('#last_name').value,
         email: document.querySelector('#email').value,
+        favorite: document.querySelector('#favorite-form').checked,
+        uid
       };
 
       createAuthor(authorObject).then((authorArray) => showAuthors(authorArray));
@@ -55,6 +57,8 @@ const formEvents = (uid) => {
         first_name: document.querySelector('#first_name').value,
         last_name: document.querySelector('#last_name').value,
         email: document.querySelector('#email').value,
+        favorite: document.querySelector('#favorite-form').checked,
+        uid,
         firebaseKey
       };
       updateAuthor((authorObject).then((showAuthors)));

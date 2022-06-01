@@ -31,6 +31,10 @@ const showAuthors = (array) => {
 const emptyAuthors = () => {
   const domString = '<h1>No Authors</h1>';
   renderToDOM('#store', domString);
+  const btnString = `
+  <button class="btn btn-success btn-lg mb-4" id="add-author-btn">Add An Author</button>`;
+
+  renderToDOM('#add-button', btnString);
 };
 
 export { showAuthors, emptyAuthors };

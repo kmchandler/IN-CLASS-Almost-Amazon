@@ -37,7 +37,7 @@ const navigationEvents = (uid) => {
   // 2. Convert the response to an array because that is what the makeAuthors function is expecting
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
-    getAuthors().then((authorsArray) => {
+    getAuthors(uid).then((authorsArray) => {
       if (authorsArray.length !== 0) {
         showAuthors(authorsArray);
       } else {
@@ -48,7 +48,7 @@ const navigationEvents = (uid) => {
 
   // FAVORITE AUTHORS
   document.querySelector('#favorite-authors').addEventListener('click', () => {
-    favAuthors().then((favAuthorsArray) => {
+    favAuthors(uid).then((favAuthorsArray) => {
       if (favAuthorsArray.length !== 0) {
         showAuthors(favAuthorsArray);
       } else {
