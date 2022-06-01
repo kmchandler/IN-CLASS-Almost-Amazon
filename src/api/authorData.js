@@ -4,8 +4,8 @@ import firebaseConfig from './apiKeys';
 const dbUrl = firebaseConfig.databaseURL;
 
 // GET ALL AUTHORS
-const getAuthors = () => new Promise((resolve, reject) => {
-  axios.get(`${dbUrl}/authors.json`)
+const getAuthors = (uid) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/authors.json?orderBy="uid"&equalTo="${uid}"`)
     .then((response) => {
       if (response.data) {
         resolve(Object.values(response.data));
@@ -60,10 +60,12 @@ const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 // GET FAVORITE AUTHOR
-const favAuthors = () => new Promise((resolve, reject) => {
-  axios.get(`${dbUrl}/authors.json?orderBy="favorite"&equalTo=true`)
-    .then((response) => resolve(Object.values(response.data)))
-    .catch((error) => reject(error));
+const favAuthors = (uid) => new Promise((resolve, reject) => {
+  getAuthors(uid)
+    .then((authorList) => {
+      const favAuthorList = authorList.filter((author) => author.favorite);
+      resolve(favAuthorList);
+    }).catch((error) => reject(error));
 });
 
 export {

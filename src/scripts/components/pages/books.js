@@ -26,7 +26,8 @@ const showBooks = (array) => {
 };
 
 const emptyBooks = () => {
-  document.querySelector('#store').innerHTML = '<h1>No Items</h1>';
+  const domString = '<h1>No Books</h1>';
+  renderToDOM('#store', domString);
 };
 
 export { showBooks, emptyBooks };
